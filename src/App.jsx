@@ -4,6 +4,7 @@ import About from "./pages/About";
 import Book from "./pages/Book";
 import NavBar from "./components/NavBar";
 import Quran from "./pages/Quran";
+import SingleSurah from "./pages/SingleSurah";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/quran" element={<Quran />} />
+          <Route path="/surah" element={<SingleSurah />} />
           <Route path="/about" element={<About />} />
           <Route path="/book" element={<Book />} />
         </Routes>

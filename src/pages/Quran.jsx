@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import SingleSurah from "./SingleSurah";
 
 export default function Quran() {
   const [surahs, setSurahs] = useState([]);
+  const [selectedSurah, setSelectedSurah] = useState(null);
 
   useEffect(() => {
     fetch("https://api.alquran.cloud/v1/surah")
@@ -10,21 +12,21 @@ export default function Quran() {
       .catch((err) => console.error(err));
   }, []);
 
+  if (selectedSurah) {
+    return (
+      <SingleSurah
+        surahNumber={selectedSurah}
+        onBack={() => setSelectedSurah(null)}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
-      {/* Hero Section */}
-      <section className="text-center py-16 px-4">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-emerald-900 mb-4">
-          Welcome to the House of Guidance
-        </h2>
-        <p className="text-emerald-700 max-w-xl mx-auto mb-6">
-          Explore the Holy Quran, read surahs, and strengthen your connection
-          with faith.
-        </p>
-        <button className="bg-emerald-700 text-white px-6 py-3 rounded-full hover:bg-emerald-800 transition">
-          Start Reading
-        </button>
-      </section>
+      {/* Navbar */}
+      <nav className="flex items-center justify-between px-8 py-4 bg-emerald-800 text-white shadow-md">
+        <h1 className="text-2xl font-bold tracking-wide">Al-Quran</h1>
+      </nav>
 
       {/* Surah List */}
       <section className="max-w-5xl mx-auto px-4 py-10">
@@ -35,7 +37,8 @@ export default function Quran() {
           {surahs.map((surah) => (
             <div
               key={surah.number}
-              className="bg-white border border-emerald-100 rounded-xl shadow-sm hover:shadow-md transition p-4 flex justify-between items-center"
+              onClick={() => setSelectedSurah(surah.number)}
+              className="bg-white border border-emerald-100 rounded-xl shadow-sm hover:shadow-md hover:bg-emerald-50 cursor-pointer transition p-4 flex justify-between items-center"
             >
               <div>
                 <p className="font-semibold text-emerald-900">
@@ -45,9 +48,7 @@ export default function Quran() {
                   {surah.englishNameTranslation}
                 </p>
               </div>
-              <p className="text-lg font-arabic text-emerald-800">
-                {surah.name}
-              </p>
+              <p className="text-lg text-emerald-800">{surah.name}</p>
             </div>
           ))}
         </div>
